@@ -1,0 +1,149 @@
+
+
+
+
+
+
+
+// import './App.css'
+// import { useState } from 'react'
+// import TaskForm from './components/TaskForm'
+// import TaskList from './components/TaskList'
+
+// function App() {
+
+//   const [tasks, setTasks] = useState([])
+
+//   const addTask = (task) => {
+//     setTasks([...tasks, task])
+
+
+  
+//   };
+  
+
+//   return (
+//     <div className="min-h-screen p-4 flex justify-center">
+//       <div className="bg-white w-full max-w-3xl rounded-2xl shadow-2xl p-6">
+
+//         <h1 className="text-3xl font-bold text-center mb-6">
+//           Smart To-Do App
+//         </h1>
+
+//         <TaskForm addTask={addTask} />
+
+//         {/* <TaskList tasks={tasks} /> */}
+
+
+//    <TaskList
+//   tasks={tasks}
+//   updateTask={updateTask}
+//   deleteTask={deleteTask}
+// />
+
+    
+
+         
+
+//       </div>
+//     </div>
+//   )
+// }
+
+// export default App
+
+
+
+
+
+
+
+import './App.css'
+import { useState, useEffect } from 'react'
+import TaskForm from './components/TaskForm'
+import TaskList from './components/TaskList'
+
+function App() {
+
+  const [tasks, setTasks] = useState([])
+
+  // localStorage থেকে data load
+  useEffect(() => {
+    const storedTasks = JSON.parse(localStorage.getItem("tasks"))
+    if (storedTasks) {
+      // setTasks(storedTasks)
+    }
+  }, [])
+
+  // Add Task
+  const addTask = (task) => {
+    const updatedTasks = [...tasks, task]
+
+    setTasks(updatedTasks)
+
+    localStorage.setItem(
+      "tasks",
+      JSON.stringify(updatedTasks)
+    )
+  }
+
+  // Update Task
+  const updateTask = (id, updatedTask) => {
+
+    const updatedTasks = tasks.map((task) =>
+      task.id === id
+        ? { ...task, ...updatedTask }
+        : task
+    )
+
+    setTasks(updatedTasks)
+
+    localStorage.setItem(
+      "tasks",
+      JSON.stringify(updatedTasks)
+    )
+  }
+
+  // Delete Task
+  const deleteTask = (id) => {
+
+    const updatedTasks = tasks.filter(
+      (task) => task.id !== id
+    )
+
+    setTasks(updatedTasks)
+
+    localStorage.setItem(
+      "tasks",
+      JSON.stringify(updatedTasks)
+    )
+  }
+  console.log(tasks);
+
+  return (
+    <div className="min-h-screen p-4 flex justify-center">
+      <div className="bg-white w-full max-w-3xl rounded-2xl shadow-2xl p-6">
+
+        <h1 className="text-3xl font-bold text-center mb-6">
+          Smart To-Do App
+        </h1>
+        {/* <TaskForm addTask={addTask} /> */}
+        <TaskForm addTask={addTask} tasks={tasks} />
+
+        <TaskList
+          tasks={tasks}
+          updateTask={updateTask}
+          deleteTask={deleteTask}
+        />
+
+      </div>
+    </div>
+  )
+}
+
+export default App
+
+
+
+
+
