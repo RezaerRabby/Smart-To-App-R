@@ -5,7 +5,7 @@
 
 import { useState } from "react";
 
-const TaskForm = ({ addTask , tasks }) => {
+const TaskForm = ({ addTask }) => {
 
   const [title, setTitle] = useState('');
   const [priority, setPriority] = useState('Low');
@@ -16,15 +16,12 @@ const TaskForm = ({ addTask , tasks }) => {
     if (!title) return;
 
     const newTask = {
-      // id: Date.now(),
-        id: tasks.length + 1,
-
+      id: Date.now(),
       title,
       priority,
       completed: false,
       createdAt: new Date().toISOString(),
     };
-    console.log(newTask);
 
     addTask(newTask);
 
